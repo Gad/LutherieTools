@@ -59,7 +59,7 @@ class FrettingTemplate:
             #---------- Nut ------------
             self.ctx.move_to(drawing_points[0][1], k*self.HEIGHT)
             self.ctx.line_to(drawing_points[0][1], k*self.HEIGHT+(-1)**k*3) 
-            self.ctx.line_to(drawing_points[0][1]-1, k*self.HEIGHT+(-1)**k*4.50)              
+            self.ctx.line_to(drawing_points[0][1]-1, k*self.HEIGHT+(-1)**k*4.50)
             self.ctx.line_to(drawing_points[0][0], k*self.HEIGHT+(-1)**k*3)
             self.ctx.line_to(drawing_points[0][0], k*self.HEIGHT) 
             #----------------------------
@@ -67,7 +67,7 @@ class FrettingTemplate:
             #---------- pre-Nut ------------
             self.ctx.line_to(drawing_points[0][1]-7, k*self.HEIGHT)
             self.ctx.line_to(drawing_points[0][1]-7, k*self.HEIGHT+(-1)**k*3) 
-            self.ctx.line_to(drawing_points[0][1]-8, k*self.HEIGHT+(-1)**k*4.5)              
+            self.ctx.line_to(drawing_points[0][1]-8, k*self.HEIGHT+(-1)**k*4.5)
             self.ctx.line_to(drawing_points[0][0]-7, k*self.HEIGHT+(-1)**k*3)
             self.ctx.line_to(drawing_points[0][0]-7, k*self.HEIGHT)
             #-------------------------------
@@ -233,7 +233,7 @@ class FrettingTemplate:
         
 
     def draw_double_marks(self, starting_frette, ending_frette, row):
-        middle=(starting_frette+ending_frette)/2 #middle between 2 frettes, will come handy
+        middle=(starting_frette+ending_frette)/2 #middle between 2 frettes, will come handy  # noqa: E501
         self.ctx.new_sub_path()
         # drill holes
         self.ctx.set_source_rgb(1,0,0)

@@ -14,7 +14,8 @@ def obscure(data: bytes) -> bytes:
 
 
 class Quote_request():
-    def __init__(self, file, sender_fname="", sender_sname="", sender_email="", sender_lang="")->None:
+    def __init__(self, file, sender_fname="", sender_sname="", 
+                 sender_email="", sender_lang="")->None:
         
         try:
         
@@ -39,7 +40,8 @@ class Quote_request():
     
     def send_request(self):
         try:
-            r=requests.post(url=self.URL, headers=self.headers, files=self.files, data=self.form_data)
+            r=requests.post(url=self.URL, headers=self.headers, 
+                            files=self.files, data=self.form_data)
             r.raise_for_status()
         except requests.exceptions.HTTPError as errh:
             logging.error ("Http Error while sending file:{}".format(errh))
@@ -57,10 +59,12 @@ class Quote_request():
         
         else :
             if r.status_code > 299 or r.status_code < 200:
-                logging.error ("Non 2xx code returned while sending file : {}".format(r.text))
+                logging.error ("Non 2xx code returned while sending file : {}"\
+                                                                .format(r.text))
                 return False, r.text
             else :
-                logging.debug ("sent file to server with request result :{}".format(r.text))
+                logging.debug ("sent file to server with request result :{}"\
+                                                                .format(r.text))
                 return True, 
 
 def main():
@@ -71,4 +75,5 @@ def main():
     r=Quote_request('bigfile.txt', 'Rogér','Ràbit','RR@hole.com','fr_FR').send_request()
     print(r)
 
-if __name__=="__main__": main()
+if __name__=="__main__": 
+    main()

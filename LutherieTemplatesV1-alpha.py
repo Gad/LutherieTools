@@ -3,6 +3,7 @@ import logging
 import re
 import platform
 import ctypes
+import tempfile
 
 #from ui_pre_email_window import Ui_Dialog
 from LutherieTemplatesV1_alpha_ui import Ui_MainWindow
@@ -11,7 +12,7 @@ from QuoteRequestDialog import Ui_Dialog
 from PySide6.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QFileDialog, \
                                 QDialog, QMessageBox, QDialogButtonBox
 from PySide6.QtSvgWidgets import QGraphicsSvgItem
-from PySide6.QtCore import QByteArray, Slot, QTranslator, QLocale, QCoreApplication
+from PySide6.QtCore import QByteArray, Slot, QTranslator, QLocale, QCoreApplication, QEvent
 from PySide6.QtGui import QActionGroup, QIcon
 
 from QuoteRequest import Quote_request
@@ -41,11 +42,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.languageGroup.setExclusionPolicy(QActionGroup.ExclusionPolicy.Exclusive)
         
         self.initialCompute=False
+        
 
         for actions in self.menuLanguage.actions():
             self.languageGroup.addAction(actions)
 
-        print(self.languageGroup.actions())
+        # set event filter for "SendAquote" button
+        self.AskForQuoteButton.installEventFilter(self)
 
         # Signals 
         self.BuildFretteBoardButton.clicked.connect(self.generateSVG)
@@ -126,6 +129,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @Slot()
     def saveAsSVG(self):
         
+        
         suggestedFileName='Diapason '+str(self.row1ScaleLengthSpinBox.value())+' '+\
         str(self.Row1UnitChoiceBox.currentText())+'-'+str(self.row2ScaleLengthSpinBox.value())+\
         ' '+str(self.Row2UnitChoiceBox.currentText())+'.svg' 
@@ -162,6 +166,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             #self.setupUi(self)
         else :
             logging.warn("Failed to load new translator")    
+
+    def eventFilter(self, object, event):
+        
+               
+
+        if event.type() == QEvent.Enter:
+            if self.AskForQuoteButton.isEnabled() is False:
+                self.AskForQuoteButton.setToolTip(QCoreApplication.translate("MainWindow",\
+                                 "Please first save your SVG file"))
+            if self.SaveAsSVGButton.isEnabled() is False:
+                self.SaveAsSVGButton.setToolTip(QCoreApplication.translate("MainWindow",\
+                                 "Please first build the fretting template"))
+        elif event.type() == QEvent.Leave:
+            pass
+            
+        return False
     
     
 
