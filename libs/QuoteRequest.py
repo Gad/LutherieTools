@@ -1,5 +1,28 @@
 #!/bin/env python
 
+"""This file is part of LuTOOL. LuTOOL is free software: you can redistribute it and/or 
+modify it under the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any later 
+version.
+
+LuTOOL is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with LuTOOL. 
+If not, see <https://www.gnu.org/licenses/>. 
+    
+    Ce fichier fait partie de LuTOOL. LuTOOL est un logiciel libre; vous pouvez le 
+redistribuer ou le modifier suivant les termes de la GNU General Public License telle 
+que publiée par la Free Software Foundation; soit la version 3 de la licence, soit 
+(à votre gré) toute version ultérieure.
+LuTOOL est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE GARANTIE; 
+sans même la garantie tacite de QUALITÉ MARCHANDE ou d'ADÉQUATION à UN BUT PARTICULIER. 
+Consultez la GNU General Public License pour plus de détails.
+Vous devez avoir reçu une copie de la GNU General Public License en même temps que 
+LuTOOL; si ce n'est pas le cas, consultez <http://www.gnu.org/licenses>.
+"""
+
 import requests
 import logging
 import zlib
@@ -14,7 +37,8 @@ def obscure(data: bytes) -> bytes:
 
 
 class Quote_request():
-    def __init__(self, file, sender_fname="", sender_sname="", sender_email="", sender_lang="")->None:
+    def __init__(self, file, sender_fname="", sender_sname="", 
+                 sender_email="", sender_lang="")->None:
         
         try:
         
@@ -39,7 +63,8 @@ class Quote_request():
     
     def send_request(self):
         try:
-            r=requests.post(url=self.URL, headers=self.headers, files=self.files, data=self.form_data)
+            r=requests.post(url=self.URL, headers=self.headers, 
+                            files=self.files, data=self.form_data)
             r.raise_for_status()
         except requests.exceptions.HTTPError as errh:
             logging.error ("Http Error while sending file:{}".format(errh))
@@ -57,10 +82,12 @@ class Quote_request():
         
         else :
             if r.status_code > 299 or r.status_code < 200:
-                logging.error ("Non 2xx code returned while sending file : {}".format(r.text))
+                logging.error ("Non 2xx code returned while sending file : {}"\
+                                                                .format(r.text))
                 return False, r.text
             else :
-                logging.debug ("sent file to server with request result :{}".format(r.text))
+                logging.debug ("sent file to server with request result :{}"\
+                                                                .format(r.text))
                 return True, 
 
 def main():
@@ -71,4 +98,5 @@ def main():
     r=Quote_request('bigfile.txt', 'Rogér','Ràbit','RR@hole.com','fr_FR').send_request()
     print(r)
 
-if __name__=="__main__": main()
+if __name__=="__main__": 
+    main()

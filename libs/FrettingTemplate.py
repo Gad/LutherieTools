@@ -1,3 +1,26 @@
+"""This file is part of LuTOOL. LuTOOL is free software: you can redistribute it and/or 
+modify it under the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any later 
+version.
+
+LuTOOL is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with LuTOOL. 
+If not, see <https://www.gnu.org/licenses/>. 
+    
+    Ce fichier fait partie de LuTOOL. LuTOOL est un logiciel libre; vous pouvez le 
+redistribuer ou le modifier suivant les termes de la GNU General Public License telle 
+que publiée par la Free Software Foundation; soit la version 3 de la licence, soit 
+(à votre gré) toute version ultérieure.
+LuTOOL est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE GARANTIE; 
+sans même la garantie tacite de QUALITÉ MARCHANDE ou d'ADÉQUATION à UN BUT PARTICULIER. 
+Consultez la GNU General Public License pour plus de détails.
+Vous devez avoir reçu une copie de la GNU General Public License en même temps que 
+LuTOOL; si ce n'est pas le cas, consultez <http://www.gnu.org/licenses>.
+"""
+
 import cairo
 
 from io import BytesIO
@@ -59,7 +82,7 @@ class FrettingTemplate:
             #---------- Nut ------------
             self.ctx.move_to(drawing_points[0][1], k*self.HEIGHT)
             self.ctx.line_to(drawing_points[0][1], k*self.HEIGHT+(-1)**k*3) 
-            self.ctx.line_to(drawing_points[0][1]-1, k*self.HEIGHT+(-1)**k*4.50)              
+            self.ctx.line_to(drawing_points[0][1]-1, k*self.HEIGHT+(-1)**k*4.50)
             self.ctx.line_to(drawing_points[0][0], k*self.HEIGHT+(-1)**k*3)
             self.ctx.line_to(drawing_points[0][0], k*self.HEIGHT) 
             #----------------------------
@@ -67,7 +90,7 @@ class FrettingTemplate:
             #---------- pre-Nut ------------
             self.ctx.line_to(drawing_points[0][1]-7, k*self.HEIGHT)
             self.ctx.line_to(drawing_points[0][1]-7, k*self.HEIGHT+(-1)**k*3) 
-            self.ctx.line_to(drawing_points[0][1]-8, k*self.HEIGHT+(-1)**k*4.5)              
+            self.ctx.line_to(drawing_points[0][1]-8, k*self.HEIGHT+(-1)**k*4.5)
             self.ctx.line_to(drawing_points[0][0]-7, k*self.HEIGHT+(-1)**k*3)
             self.ctx.line_to(drawing_points[0][0]-7, k*self.HEIGHT)
             #-------------------------------
@@ -233,7 +256,7 @@ class FrettingTemplate:
         
 
     def draw_double_marks(self, starting_frette, ending_frette, row):
-        middle=(starting_frette+ending_frette)/2 #middle between 2 frettes, will come handy
+        middle=(starting_frette+ending_frette)/2 #middle between 2 frettes, will come handy  # noqa: E501
         self.ctx.new_sub_path()
         # drill holes
         self.ctx.set_source_rgb(1,0,0)

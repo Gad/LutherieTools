@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icons/Damengo.png</normaloff>icons/Damengo.png</iconset>
+    <normaloff>icons/guitar-black-shape-svgrepo-com.png</normaloff>icons/guitar-black-shape-svgrepo-com.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="groupBox">
@@ -103,6 +103,12 @@
         </item>
         <item>
          <widget class="QComboBox" name="Row1UnitChoiceBox">
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="currentIndex">
            <number>1</number>
           </property>
@@ -128,7 +134,7 @@
         <item>
          <widget class="QSpinBox" name="Row1FretteNumSpinBox">
           <property name="value">
-           <number>22</number>
+           <number>27</number>
           </property>
          </widget>
         </item>
@@ -205,6 +211,12 @@
         </item>
         <item>
          <widget class="QComboBox" name="Row2UnitChoiceBox">
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>0</height>
+           </size>
+          </property>
           <item>
            <property name="text">
             <string>mm</string>
@@ -227,7 +239,7 @@
         <item>
          <widget class="QSpinBox" name="Row2FretteNumSpinBox">
           <property name="value">
-           <number>22</number>
+           <number>27</number>
           </property>
          </widget>
         </item>
@@ -347,6 +359,7 @@
      <addaction name="actionSpanish"/>
     </widget>
     <addaction name="menuLanguage"/>
+    <addaction name="actionLog"/>
     <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuTool"/>
@@ -414,6 +427,11 @@
    </property>
    <property name="text">
     <string>Spanish</string>
+   </property>
+  </action>
+  <action name="actionLog">
+   <property name="text">
+    <string>Enable/disable log</string>
    </property>
   </action>
  </widget>
