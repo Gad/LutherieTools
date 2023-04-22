@@ -4,7 +4,7 @@ LuTOOL aims to provide tools and jigs for guitar makers
 
 ## Installation 
 
-Either download this rep and use [pip](https://pip.pypa.io/en/stable/) to install LuTOOL
+Either download this rep and use [pip](https://pip.pypa.io/en/stable/) to install LuTOOL dependencies
 
 ```bash
 pip install requirements.txt
