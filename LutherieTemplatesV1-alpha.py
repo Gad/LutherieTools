@@ -8,9 +8,10 @@ import ctypes
 from LutherieTemplatesV1_alpha_ui import Ui_MainWindow
 from QuoteRequestDialog import Ui_Dialog
 
-from PySide6.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QFileDialog, QDialog, QMessageBox, QDialogButtonBox
+from PySide6.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QFileDialog, \
+                                QDialog, QMessageBox, QDialogButtonBox
 from PySide6.QtSvgWidgets import QGraphicsSvgItem
-from PySide6.QtCore import QByteArray, Slot, Qt, QTranslator, QLocale, QCoreApplication
+from PySide6.QtCore import QByteArray, Slot, QTranslator, QLocale, QCoreApplication
 from PySide6.QtGui import QActionGroup, QIcon
 
 from QuoteRequest import Quote_request
@@ -23,8 +24,10 @@ from FrettingTemplate import FrettingTemplate
 languageDic = {QLocale.Language.French : "fr", QLocale.Language.English : "en",
                 QLocale.Language.Spanish : "es", QLocale.Language.Italian : "it"}
 
-languageDicAlter = {"French" :  QLocale.Language.French, "English" : QLocale.Language.English,
-                    "Spanish" : QLocale.Language.Spanish, "Italian" : QLocale.Language.Italian }
+languageDicAlter = {"French" :  QLocale.Language.French, 
+                    "English" : QLocale.Language.English,
+                    "Spanish" : QLocale.Language.Spanish, 
+                    "Italian" : QLocale.Language.Italian }
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -60,7 +63,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
         # actions triggers
-        self.languageGroup.triggered.connect(lambda checked: self.changeLanguage(checked, self.languageGroup.checkedAction()))
+        self.languageGroup.triggered.connect(lambda checked:self.changeLanguage(checked,
+                                                     self.languageGroup.checkedAction()))
 
         
 
@@ -104,9 +108,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def resetButtons(self):
         self.SaveAsSVGButton.setEnabled(False)
         self.AskForQuoteButton.setEnabled(False)
-        if hasattr(self, 'scene'): self.scene.clear()
-        if hasattr(self, 'renderer2'): self.renderer2=QByteArray()
-        if hasattr(self, 'graphicsView'): self.graphicsView.destroy()
+        if hasattr(self, 'scene'): self.scene.clear()  # noqa: E701
+        if hasattr(self, 'renderer2'): self.renderer2=QByteArray()  # noqa: E701
+        if hasattr(self, 'graphicsView'): self.graphicsView.destroy()  # noqa: E701
         if hasattr(self, 'monDiapason'): 
             del self.monDiapason
 
@@ -126,8 +130,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         str(self.Row1UnitChoiceBox.currentText())+'-'+str(self.row2ScaleLengthSpinBox.value())+\
         ' '+str(self.Row2UnitChoiceBox.currentText())+'.svg' 
 
-        self.SVGFileName=QFileDialog.getSaveFileName(self, dir="./SVGs/"+suggestedFileName,\
-            filter="*.svg")
+        self.SVGFileName=QFileDialog.getSaveFileName(self, dir="./SVGs/"+
+                                                     suggestedFileName,filter="*.svg")
         
         with open(self.SVGFileName[0],'wb') as SVGfile:
             SVGfile.write(self.monDiapason.SVGoutput)
@@ -194,14 +198,20 @@ class AskQuoteDialog(QDialog, Ui_Dialog):
         
         
         newRequest=Quote_request(self.SVGFileName,self.firstNameLineEdit.text(),
-                                    self.secondNameLineEdit.text(),self.emailAddressLineEdit.text(), self.language)
+                                    self.secondNameLineEdit.text(),
+                                    self.emailAddressLineEdit.text(), 
+                                    self.language)
         r=newRequest.send_request()
         
-        if r[0] == False:
-            QMessageBox.warning(self, QCoreApplication.translate("MainWindow", "Error, quote request NOT sent"), "{}".format(r[1]) )
+        if r[0] is False:
+            QMessageBox.warning(self, QCoreApplication.translate("MainWindow", "Error,\
+                                                             quote request NOT sent"),
+                                    "{}".format(r[1]) )
         else:
-            QMessageBox.information(self, QCoreApplication.translate("MainWindow", "Quote request sent")+"              ", 
-                                    QCoreApplication.translate("MainWindow","Thank you, we're working on it ;)"))
+            QMessageBox.information(self, QCoreApplication.translate("MainWindow",
+                                                "Quote request sent")+"              ",
+                                                QCoreApplication.translate("MainWindow",
+                                                "Thank you, we're working on it ;)"))
 
     def check(self, emailAddress : str ="") -> bool: 
         pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
