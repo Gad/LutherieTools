@@ -1,23 +1,47 @@
+"""This file is part of LuTOOL. LuTOOL is free software: you can redistribute it and/or 
+modify it under the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any later 
+version.
+
+Foobar is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with Foobar. 
+If not, see <https://www.gnu.org/licenses/>. 
+    
+    Ce fichier fait partie de LuTOOL. Foobar est un logiciel libre; vous pouvez le 
+redistribuer ou le modifier suivant les termes de la GNU General Public License telle 
+que publiée par la Free Software Foundation; soit la version 3 de la licence, soit 
+(à votre gré) toute version ultérieure.
+Foobar est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE GARANTIE; 
+sans même la garantie tacite de QUALITÉ MARCHANDE ou d'ADÉQUATION à UN BUT PARTICULIER. 
+Consultez la GNU General Public License pour plus de détails.
+Vous devez avoir reçu une copie de la GNU General Public License en même temps que 
+Foobar; si ce n'est pas le cas, consultez <http://www.gnu.org/licenses>.
+"""
+
 import sys
 import logging
 import re
 import platform
 import ctypes
-import tempfile
 
-#from ui_pre_email_window import Ui_Dialog
-from LutherieTemplatesV1_alpha_ui import Ui_MainWindow
-from QuoteRequestDialog import Ui_Dialog
+#project libs 
+from libs.LutherieTemplatesV1_alpha_ui import Ui_MainWindow
+from libs.QuoteRequestDialog import Ui_Dialog
+from libs.QuoteRequest import Quote_request
+from libs.FrettingTemplate import FrettingTemplate
 
+
+#QT libs
 from PySide6.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QFileDialog, \
                                 QDialog, QMessageBox, QDialogButtonBox
 from PySide6.QtSvgWidgets import QGraphicsSvgItem
 from PySide6.QtCore import QByteArray, Slot, QTranslator, QLocale, QCoreApplication, QEvent
 from PySide6.QtGui import QActionGroup, QIcon
 
-from QuoteRequest import Quote_request
 
-from FrettingTemplate import FrettingTemplate
 
 
 
@@ -49,6 +73,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # set event filter for "SendAquote" button
         self.AskForQuoteButton.installEventFilter(self)
+        self.SaveAsSVGButton.installEventFilter(self)
 
         # Signals 
         self.BuildFretteBoardButton.clicked.connect(self.generateSVG)
@@ -103,7 +128,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.graphicsView.setScene(self.scene)
         self.graphicsView.centerOn(0,70)
         self.SaveAsSVGButton.setEnabled(True)
-        self.statusBar.showMessage("SVG Done",3000)
+        self.statusBar.showMessage(QCoreApplication.translate("MainWindow","SVG Done"),
+                                    3000)
 
         self.initialCompute = True
         
@@ -167,6 +193,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else :
             logging.warn("Failed to load new translator")    
 
+
+    # managing button tooltips depending on enable/disable
+
     def eventFilter(self, object, event):
         
                
@@ -175,9 +204,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if self.AskForQuoteButton.isEnabled() is False:
                 self.AskForQuoteButton.setToolTip(QCoreApplication.translate("MainWindow",\
                                  "Please first save your SVG file"))
+            else :
+                self.AskForQuoteButton.setToolTip("")
             if self.SaveAsSVGButton.isEnabled() is False:
                 self.SaveAsSVGButton.setToolTip(QCoreApplication.translate("MainWindow",\
                                  "Please first build the fretting template"))
+            else : 
+                self.SaveAsSVGButton.setToolTip("")
         elif event.type() == QEvent.Leave:
             pass
             
@@ -224,8 +257,8 @@ class AskQuoteDialog(QDialog, Ui_Dialog):
         r=newRequest.send_request()
         
         if r[0] is False:
-            QMessageBox.warning(self, QCoreApplication.translate("MainWindow", "Error,\
-                                                             quote request NOT sent"),
+            QMessageBox.warning(self, 
+                QCoreApplication.translate("MainWindow","Error,quote request NOT sent"),
                                     "{}".format(r[1]) )
         else:
             QMessageBox.information(self, QCoreApplication.translate("MainWindow",
@@ -244,7 +277,7 @@ class AskQuoteDialog(QDialog, Ui_Dialog):
 app = QApplication(sys.argv)
 logging.basicConfig(level=logging.DEBUG)
 # pense-bête :
-# env_qt\Scripts\pyside6-lupdate.exe LutherieTemplatesV1_alpha.ui -ts i18n\fr.ts
+# ./venv/bin/pyside6-lupdate LutherieTemplatesV1-alpha.py LutherieTemplatesV1_alpha.ui QuoteRequestDialog.ui -ts i18n/fr.ts
 # env_qt\Scripts\pyside6-linguist.exe
 # env_qt\Scripts\pyside6-lrelease.exe i18n\fr.ts i18n\fr.qm
 

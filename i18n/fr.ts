@@ -119,118 +119,123 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="../LutherieTemplatesV1_alpha.ui" line="94"/>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="196"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="202"/>
         <source>set distance from Bridge to Nut</source>
         <translation>Distance du sillet de tête au sillet de chevalet sur la corde de mi aiguë</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="116"/>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="215"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="122"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="227"/>
         <source>inches</source>
         <translation>pouces</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="111"/>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="210"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="117"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="222"/>
         <source>mm</source>
         <translation>mm</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="124"/>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="223"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="130"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="235"/>
         <source>with</source>
         <translation>avec</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="138"/>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="237"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="144"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="249"/>
         <source>frettes </source>
         <translation>frettes</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="145"/>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="244"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="151"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="256"/>
         <source>include marks</source>
         <translation>inclure les répères</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="183"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="189"/>
         <source>2nd Row Scale Length</source>
         <translation>Diapason du 2nd rang</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="264"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="276"/>
         <source>Build Fretting Template</source>
         <translation>Calculer le gabarit de frettage</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="280"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="292"/>
         <source>Save as SVG File</source>
         <translation>Sauvegarder comme fichier SVG</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="302"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="314"/>
         <source>ask for a quote</source>
         <translation>Demander un devis</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="326"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="338"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="332"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="344"/>
         <source>Tool</source>
         <translation>Outil</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="338"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="350"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="359"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="372"/>
         <source>How does it work ?</source>
         <translation>Comment ça marche ?</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="364"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="377"/>
         <source>Fretting Templates</source>
         <translation>Gabarits de frettage</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="369"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="382"/>
         <source>Routing Templates</source>
         <translation>Gabarits de défonce</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="392"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="405"/>
         <source>English</source>
         <translation>anglais</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="400"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="413"/>
         <source>French</source>
         <translation>français</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="408"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="421"/>
         <source>Italian</source>
         <translation>italien</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="416"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="429"/>
         <source>Spanish</source>
         <translation>espagnol</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="342"/>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="374"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="434"/>
+        <source>Enable/disable log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="354"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="387"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="379"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="392"/>
         <source>Logging Level</source>
         <translation>Niveau de log</translation>
     </message>
@@ -239,7 +244,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="vanished">Paramêtres</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1_alpha.ui" line="384"/>
+        <location filename="../LutherieTemplatesV1_alpha.ui" line="397"/>
         <source>About</source>
         <translation>Au sujet de...</translation>
     </message>
@@ -248,17 +253,31 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="vanished">Enregistrer le fichier</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1-alpha.py" line="191"/>
         <source>Error, quote request NOT sent</source>
-        <translation>Erreur, demande de devis NON envoyée</translation>
+        <translation type="vanished">Erreur, demande de devis NON envoyée</translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1-alpha.py" line="193"/>
+        <location filename="../LutherieTemplatesV1-alpha.py" line="107"/>
+        <source>SVG Done</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../LutherieTemplatesV1-alpha.py" line="181"/>
+        <source>Please first save your SVG file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../LutherieTemplatesV1-alpha.py" line="186"/>
+        <source>Please first build the fretting template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../LutherieTemplatesV1-alpha.py" line="240"/>
         <source>Quote request sent</source>
         <translation>Demande de devis envoyée </translation>
     </message>
     <message>
-        <location filename="../LutherieTemplatesV1-alpha.py" line="194"/>
+        <location filename="../LutherieTemplatesV1-alpha.py" line="242"/>
         <source>Thank you, we&apos;re working on it ;)</source>
         <translation>Merci, on y travaille ;)</translation>
     </message>
