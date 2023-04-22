@@ -37,7 +37,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.languageGroup=QActionGroup(self)
         self.languageGroup.setExclusionPolicy(QActionGroup.ExclusionPolicy.Exclusive)
         
-        
+        self.initialCompute=False
+
         for actions in self.menuLanguage.actions():
             self.languageGroup.addAction(actions)
 
@@ -54,6 +55,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Row2FretteNumSpinBox.valueChanged.connect(self.resetButtons)
         self.Row1UnitChoiceBox.currentIndexChanged.connect(self.resetButtons)
         self.Row2UnitChoiceBox.currentIndexChanged.connect(self.resetButtons)
+        self.Row1IncludeMarksCheckBox.stateChanged.connect(self.resetButtons)
+        self.Row2IncludeMarksCheckBox.stateChanged.connect(self.resetButtons)
+
 
         # actions triggers
         self.languageGroup.triggered.connect(lambda checked: self.changeLanguage(checked, self.languageGroup.checkedAction()))
@@ -93,6 +97,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.graphicsView.centerOn(0,70)
         self.SaveAsSVGButton.setEnabled(True)
         self.statusBar.showMessage("SVG Done",3000)
+
+        self.initialCompute = True
         
     @Slot()
     def resetButtons(self):
@@ -101,7 +107,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if hasattr(self, 'scene'): self.scene.clear()
         if hasattr(self, 'renderer2'): self.renderer2=QByteArray()
         if hasattr(self, 'graphicsView'): self.graphicsView.destroy()
-        if hasattr(self, 'monDiapason'): del self.monDiapason
+        if hasattr(self, 'monDiapason'): 
+            del self.monDiapason
+
+        if self.initialCompute is True :
+            self.generateSVG()
 
 
 
