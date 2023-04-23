@@ -32,6 +32,7 @@ from libs.LutherieTemplatesV1_alpha_ui import Ui_MainWindow
 from libs.QuoteRequestDialog import Ui_Dialog
 from libs.QuoteRequest import Quote_request
 from libs.FrettingTemplate import FrettingTemplate
+from libs.AboutDialog_ui import Ui_aboutDialog
 
 
 #QT libs
@@ -59,8 +60,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__()
         
         self.setWindowIcon(QIcon('./icons/guitar-black-shape-svgrepo-com.png'))
+        #
         
         self.setupUi(self)
+        self.setFixedSize(self.width(),self.height())
         #self.actionFrench.setChecked(True)
         self.languageGroup=QActionGroup(self)
         self.languageGroup.setExclusionPolicy(QActionGroup.ExclusionPolicy.Exclusive)
@@ -93,6 +96,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # actions triggers
         self.languageGroup.triggered.connect(lambda checked:self.changeLanguage(checked,
                                                      self.languageGroup.checkedAction()))
+        
+        self.actionAbout.triggered.connect(self.about)
 
         
 
@@ -172,7 +177,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @Slot()
     def askForQuote(self):
         dialogWindow=AskQuoteDialog(self)
+        dialogWindow.setFixedSize(dialogWindow.width(),dialogWindow.height())
+     
         dialogWindow.exec()
+
+    @Slot()
+    def about(self):
+        dialogWindow=AboutDialog(self)
+        dialogWindow.setFixedSize(dialogWindow.width(),dialogWindow.height())
+        dialogWindow.exec_()
 
     @Slot()
     def changeLanguage(self, checked, checked_action):
@@ -216,7 +229,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             
         return False
     
-    
+class AboutDialog(QDialog, Ui_aboutDialog):
+    def __init__(self, parent: None) -> None:
+        super().__init__()
+        self.setupUi(self)   
 
 class AskQuoteDialog(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
