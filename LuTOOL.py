@@ -33,13 +33,15 @@ from libs.QuoteRequestDialog import Ui_Dialog
 from libs.QuoteRequest import Quote_request
 from libs.FrettingTemplate import FrettingTemplate
 from libs.AboutDialog_ui import Ui_aboutDialog
+from libs.LuToolLog_ui import Ui_log
 
 
 #QT libs
 from PySide6.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QFileDialog, \
                                 QDialog, QMessageBox, QDialogButtonBox
 from PySide6.QtSvgWidgets import QGraphicsSvgItem
-from PySide6.QtCore import QByteArray, Slot, QTranslator, QLocale, QCoreApplication, QEvent
+from PySide6.QtCore import QByteArray, Slot, QTranslator, QLocale, QCoreApplication, \
+    QEvent, QTextStream, QObject, Signal
 from PySide6.QtGui import QActionGroup, QIcon
 
 
@@ -98,6 +100,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                      self.languageGroup.checkedAction()))
         
         self.actionAbout.triggered.connect(self.about)
+        self.actionLog.triggered.connect(self.log)
 
         
 
@@ -188,6 +191,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dialogWindow.exec_()
 
     @Slot()
+    def log(self):
+        
+        self.logWindow=LogDialog(self)
+        self.logWindow.setModal(False)
+        self.logWindow.setupUi(self.logWindow)
+        self.logWindow.show()
+        sys.stderr = EmittingStream()
+        sys.stderr.textWritten.connect(self.write2Console)
+        h2=logging.StreamHandler(sys.stderr)
+        h2.setFormatter (logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(funcName)s:%(lineno)d — %(message)s"))
+        main_logger.addHandler(h2)
+        main_logger.removeHandler(h1)
+        
+
+        #dialogWindow.setFixedSize(dialogWindow.width(),dialogWindow.height())
+        #dialogWindow.setWindowModality(Qt.WindowModality.NonModal)
+        
+
+    @Slot()
     def changeLanguage(self, checked, checked_action):
 
        
@@ -197,7 +219,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         language=languageDic[languageDicAlter[checked_action.objectName().replace('action','')]]
 
         new_installed_tr=translator.load(language+".qm", directory="./i18n")
-        logging.debug('Try to install tranlator: {}.qm'.format(language))
+        main_logger.debug('Try to install tranlator: {}.qm'.format(language))
     
         if new_installed_tr :
             app.installTranslator(translator)
@@ -229,10 +251,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             
         return False
     
+    def write2Console(self, text):
+        """Append text to the QTextEdit."""
+        # Maybe QTextEdit.append() works as well, but this is how I do it:
+        self.logWindow.logBrowser.insertPlainText(text) 
+
 class AboutDialog(QDialog, Ui_aboutDialog):
     def __init__(self, parent: None) -> None:
         super().__init__()
         self.setupUi(self)   
+
+class LogDialog(QDialog, Ui_log):
+    def __init__(self, parent: None) -> None:
+        super().__init__()
+        
+        
+class EmittingStream(QObject):
+
+    textWritten = Signal(str)
+
+
+    def write(self, text):
+        self.textWritten.emit(str(text))
 
 class AskQuoteDialog(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
@@ -291,7 +331,13 @@ class AskQuoteDialog(QDialog, Ui_Dialog):
 
 
 app = QApplication(sys.argv)
-logging.basicConfig(level=logging.DEBUG)
+
+main_logger = logging.getLogger("main_logger")
+main_logger.setLevel(logging.DEBUG)
+h1=logging.StreamHandler()
+h1.setFormatter (logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(funcName)s:%(lineno)d — %(message)s"))
+main_logger.addHandler(h1)
+
 # pense-bête :
 # ./venv/bin/pyside6-lupdate LutherieTemplatesV1-alpha.py LutherieTemplatesV1_alpha.ui QuoteRequestDialog.ui -ts i18n/fr.ts
 # env_qt\Scripts\pyside6-linguist.exe
@@ -300,22 +346,22 @@ logging.basicConfig(level=logging.DEBUG)
 
 translator = QTranslator(app)
 loc=QLocale()
-logging.debug('found Locale : {}'.format(loc.language()))
+main_logger.debug('found Locale : {}'.format(loc.language()))
 
 #alias for typing faster
 
 
 if loc.language() in languageDic.keys():
     installed_tr=translator.load(languageDic[loc.language()]+".qm", directory="./i18n")
-    logging.debug('Try to install tranlator: {}.qm'.format(languageDic[loc.language()]))
+    main_logger.debug('Try to install tranlator: {}.qm'.format(languageDic[loc.language()]))
 else :
-    logging.warn("Local language not supported, fall back to generic")
+    main_logger.warn("Local language not supported, fall back to generic")
     installed_tr=False
 
 if installed_tr :
     app.installTranslator(translator)
 else :
-    logging.warn("Failed to load translator")
+    main_logger.warn("Failed to load translator")
 
 if platform.system()=="windows":
     myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string

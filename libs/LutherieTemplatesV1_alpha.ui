@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1075</width>
+    <width>1072</width>
     <height>436</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="font">
    <font>
@@ -17,11 +23,11 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Lutherie Tools&amp;Jigs</string>
+   <string>LuTOOL - Guitar making Tools&amp;Jigs</string>
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icons/guitar-black-shape-svgrepo-com.png</normaloff>icons/guitar-black-shape-svgrepo-com.png</iconset>
+    <normaloff>../../../../../../.designer/backup/icons/guitar-black-shape-svgrepo-com.png</normaloff>../../../../../../.designer/backup/icons/guitar-black-shape-svgrepo-com.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="groupBox">
@@ -329,7 +335,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1075</width>
+     <width>1072</width>
      <height>21</height>
     </rect>
    </property>

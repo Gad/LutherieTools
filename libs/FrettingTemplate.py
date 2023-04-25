@@ -25,6 +25,7 @@ import cairo
 
 from io import BytesIO
 from math import pi
+import logging
 
 
 class FrettingTemplate:
@@ -39,7 +40,7 @@ class FrettingTemplate:
         # my zero is the nut and the nut is 13mm away from the left closure 
         # so we'll need to translate everything by 13mm right to fit the viewport and 
         # avoid issues with the renderer
-
+        logging.debug('create new fretting template')
         CONST_TRANSLATE = 13  
 
         for i,unit in enumerate(UNITS): 
