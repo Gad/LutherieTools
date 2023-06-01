@@ -26,6 +26,11 @@ import logging
 import re
 import platform
 import ctypes
+import tempfile
+import os
+import glob
+import shutil
+
 
 #project libs 
 from libs.LutherieTemplatesV1_alpha_ui import Ui_MainWindow
@@ -69,9 +74,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #self.actionFrench.setChecked(True)
         self.languageGroup=QActionGroup(self)
         self.languageGroup.setExclusionPolicy(QActionGroup.ExclusionPolicy.Exclusive)
-        
+
+        # state variables       
         self.initialCompute=False
-        
+        self.logging = False # is logging to logging windows active       
+
 
         for actions in self.menuLanguage.actions():
             self.languageGroup.addAction(actions)
@@ -79,6 +86,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # set event filter for "SendAquote" button
         self.AskForQuoteButton.installEventFilter(self)
         self.SaveAsSVGButton.installEventFilter(self)
+
+        #
+        self.closeEvent = self.cleaningOnClose
+
 
         # Signals 
         self.BuildFretteBoardButton.clicked.connect(self.generateSVG)
@@ -93,7 +104,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Row2UnitChoiceBox.currentIndexChanged.connect(self.resetButtons)
         self.Row1IncludeMarksCheckBox.stateChanged.connect(self.resetButtons)
         self.Row2IncludeMarksCheckBox.stateChanged.connect(self.resetButtons)
-
+        
 
         # actions triggers
         self.languageGroup.triggered.connect(lambda checked:self.changeLanguage(checked,
@@ -102,7 +113,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionAbout.triggered.connect(self.about)
         self.actionLog.triggered.connect(self.log)
 
-        
 
 
     @Slot()
@@ -192,23 +202,49 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def log(self):
-        
-        self.logWindow=LogDialog(self)
-        self.logWindow.setModal(False)
-        self.logWindow.setupUi(self.logWindow)
-        self.logWindow.show()
-        sys.stderr = EmittingStream()
-        sys.stderr.textWritten.connect(self.write2Console)
-        h2=logging.StreamHandler(sys.stderr)
-        h2.setFormatter (logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(funcName)s:%(lineno)d — %(message)s"))
-        main_logger.addHandler(h2)
-        main_logger.removeHandler(h1)
-        
+    
+        if self.logging is False:
+            self.logWindow=LogDialog(self)
+            self.logWindow.setModal(False)
 
+            self.logWindow.setupUi(self.logWindow)
+
+            self.logWindow.buttonBox.button(QDialogButtonBox.Close).clicked.connect(self.closeLogWindow) 
+            self.logWindow.buttonBox.button(QDialogButtonBox.Save).clicked.connect(self.saveLog) 
+
+            tempLogFile.seek(0)
+            self.logWindow.logBrowser.insertPlainText(tempLogFile.read())
+
+            self.logWindow.closeEvent = self.closeLogWindow
+             
+            self.logWindow.show()
+            sys.stderr = EmittingStream()
+            sys.stderr.textWritten.connect(self.write2Console)
+
+            self.windowsLoggingHandler=logging.StreamHandler(sys.stderr)
+            self.windowsLoggingHandler.setFormatter (logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(funcName)s:%(lineno)d — %(message)s"))
+            main_logger.addHandler(self.windowsLoggingHandler)
+            print(main_logger.handlers)
+            
+      
         #dialogWindow.setFixedSize(dialogWindow.width(),dialogWindow.height())
         #dialogWindow.setWindowModality(Qt.WindowModality.NonModal)
+    @Slot()    
+    def closeLogWindow(self, event=None):
+        print("here")
+        main_logger.removeHandler(self.windowsLoggingHandler)
         
 
+    def saveLog(self):
+        self.LogFileName=QFileDialog.getSaveFileName(self, dir="./logs/LuTOOL_log.txt",filter="*.txt")
+        main_logger.info(f'Saved Log file into {self.LogFileName[0]}')
+        tempLogFile.close()
+        shutil.copy(tempLogFile.name,self.LogFileName[0])
+        
+
+        
+        
+        
     @Slot()
     def changeLanguage(self, checked, checked_action):
 
@@ -252,9 +288,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return False
     
     def write2Console(self, text):
+
         """Append text to the QTextEdit."""
         # Maybe QTextEdit.append() works as well, but this is how I do it:
         self.logWindow.logBrowser.insertPlainText(text) 
+
+    def cleaningOnClose(self,event):
+
+        #cleaning temp files in log
+
+        fileList = glob.glob('./logs/tmp*.log', recursive=True)
+     
+        # Remove all files one by one
+        for file in fileList:
+            try:
+                os.remove(file)
+            except OSError:
+                print("Error while deleting file")
+
+            finally :
+                event.accept()
+        
 
 class AboutDialog(QDialog, Ui_aboutDialog):
     def __init__(self, parent: None) -> None:
@@ -334,9 +388,16 @@ app = QApplication(sys.argv)
 
 main_logger = logging.getLogger("main_logger")
 main_logger.setLevel(logging.DEBUG)
-h1=logging.StreamHandler()
-h1.setFormatter (logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(funcName)s:%(lineno)d — %(message)s"))
-main_logger.addHandler(h1)
+
+# set tmp file handler 
+windowsLoggingHandler=logging.StreamHandler(sys.stderr)
+windowsLoggingHandler.setFormatter (logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(funcName)s:%(lineno)d — %(message)s"))
+tempLogFile=tempfile.NamedTemporaryFile(mode="w+",suffix=".log", dir="./logs/", prefix='tmp', delete = False)
+tempLogFileHandler=logging.FileHandler(filename=tempLogFile.name, mode="a")
+tempLogFileHandler.setFormatter (logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(funcName)s:%(lineno)d — %(message)s"))
+tempLogFileHandler.setLevel(logging.DEBUG)
+
+main_logger.addHandler(tempLogFileHandler)
 
 # pense-bête :
 # ./venv/bin/pyside6-lupdate LutherieTemplatesV1-alpha.py LutherieTemplatesV1_alpha.ui QuoteRequestDialog.ui -ts i18n/fr.ts

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>932</width>
+    <width>946</width>
     <height>300</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>840</x>
      <y>10</y>
-     <width>81</width>
+     <width>101</width>
      <height>241</height>
     </rect>
    </property>
@@ -26,7 +26,7 @@
     <enum>Qt::Vertical</enum>
    </property>
    <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+    <set>QDialogButtonBox::Close|QDialogButtonBox::Save</set>
    </property>
   </widget>
   <widget class="QTextBrowser" name="logBrowser">

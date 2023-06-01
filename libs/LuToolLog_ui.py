@@ -22,12 +22,12 @@ class Ui_log(object):
     def setupUi(self, log):
         if not log.objectName():
             log.setObjectName(u"log")
-        log.resize(932, 300)
+        log.resize(946, 300)
         self.buttonBox = QDialogButtonBox(log)
         self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setGeometry(QRect(840, 10, 81, 241))
+        self.buttonBox.setGeometry(QRect(840, 10, 101, 241))
         self.buttonBox.setOrientation(Qt.Vertical)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.Close|QDialogButtonBox.Save)
         self.logBrowser = QTextBrowser(log)
         self.logBrowser.setObjectName(u"logBrowser")
         self.logBrowser.setGeometry(QRect(10, 10, 821, 261))
