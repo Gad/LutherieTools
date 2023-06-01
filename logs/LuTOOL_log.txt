@@ -1,0 +1,4 @@
+2023-06-01 19:36:26,276 — main_logger — DEBUG — <module>:410 — found Locale : Language.French
+2023-06-01 19:36:26,276 — main_logger — DEBUG — <module>:417 — Try to install tranlator: fr.qm
+2023-06-01 19:38:42,113 — main_logger — DEBUG — changeLanguage:258 — Try to install tranlator: en.qm
+2023-06-01 19:38:55,405 — main_logger — INFO — saveLog:240 — Saved Log file into /home/gilles/Nextcloud/Documents/dev/python/LutherieTools/logs/LuTOOL_log.txt

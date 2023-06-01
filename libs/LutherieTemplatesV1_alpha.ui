@@ -27,7 +27,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../../../../.designer/backup/icons/guitar-black-shape-svgrepo-com.png</normaloff>../../../../../../.designer/backup/icons/guitar-black-shape-svgrepo-com.png</iconset>
+    <normaloff>../icons/guitar-black-shape-svgrepo-com.png</normaloff>../icons/guitar-black-shape-svgrepo-com.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="groupBox">

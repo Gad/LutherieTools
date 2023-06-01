@@ -40,7 +40,8 @@ class FrettingTemplate:
         # my zero is the nut and the nut is 13mm away from the left closure 
         # so we'll need to translate everything by 13mm right to fit the viewport and 
         # avoid issues with the renderer
-        logging.debug('create new fretting template')
+        self.main_logger = logging.getLogger("main_logger")
+        self.main_logger.debug('creating new fretting template')
         CONST_TRANSLATE = 13  
 
         for i,unit in enumerate(UNITS): 
@@ -55,7 +56,7 @@ class FrettingTemplate:
         self.ctx.scale(1,1)
         self.ctx.set_line_width(0.5)
         self.ctx.translate(CONST_TRANSLATE,0)
-        print(LENGTHS)
+        
         
         max_point=[]
         for k in range(2):
@@ -132,7 +133,7 @@ class FrettingTemplate:
 
             # store the last fret_point of each scale +1 , this is where the scale ends
             max_point.append(drawing_points[-1][1])
-            print(max(max_point)) 
+            
             #self.ctx.stroke()  
         #self.ctx.set_source_rgb(0,0,1)
         #----------- right closure-------
@@ -230,6 +231,8 @@ class FrettingTemplate:
         surface.finish() #that's enough !
         
         self.SVGoutput=output.getvalue()
+        self.main_logger.debug('created new fretting template')
+
 
     def convert_to_mm(self, inchs_distance):
         return round(inchs_distance * 25.4,2)

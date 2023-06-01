@@ -40,6 +40,8 @@ class Quote_request():
     def __init__(self, file, sender_fname="", sender_sname="", 
                  sender_email="", sender_lang="")->None:
         
+        self.main_logger = logging.getLogger("main_logger")
+        self.main_logger.debug('creating quote request')
         try:
         
             self.files = {'file': open(file, 'rb'),}
@@ -55,7 +57,8 @@ class Quote_request():
                 'sender_lang':obscure(str.encode(sender_lang, "utf-8"))
             }
             
-        except Exception as e:  
+        except Exception as e: 
+            self.main_logger.error('creating quote request failed with error :{}', format(e))
             raise e
         
         
@@ -67,26 +70,26 @@ class Quote_request():
                             files=self.files, data=self.form_data)
             r.raise_for_status()
         except requests.exceptions.HTTPError as errh:
-            logging.error ("Http Error while sending file:{}".format(errh))
+            self.main_logger.error ("Http Error while sending file:{}".format(errh))
             return False, errh
         except requests.exceptions.ConnectionError as errc:
-            logging.error ("Error Connecting while sending file:{}".format(errc))
+            self.main_logger.error ("Error Connecting while sending file:{}".format(errc))
             return False, errc
         except requests.exceptions.Timeout as errt:
-            logging.error ("Timeout Error while sending file:{}".format(errt))
+            self.main_logger.error ("Timeout Error while sending file:{}".format(errt))
             return False, errt
         except requests.exceptions.RequestException as err:
-            logging.error ("unknown error while sending file {}".format(err))
+            self.main_logger.error ("unknown error while sending file {}".format(err))
             return False, err
         
         
         else :
             if r.status_code > 299 or r.status_code < 200:
-                logging.error ("Non 2xx code returned while sending file : {}"\
+                self.main_logger.error ("Non 2xx code returned while sending file : {}"\
                                                                 .format(r.text))
                 return False, r.text
             else :
-                logging.debug ("sent file to server with request result :{}"\
+                self.main_logger.debug ("sent file to server with request result :{}"\
                                                                 .format(r.text))
                 return True, 
 

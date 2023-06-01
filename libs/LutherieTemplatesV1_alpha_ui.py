@@ -37,7 +37,8 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         MainWindow.setFont(font)
         icon = QIcon()
-        icon.addFile(u"../../../../../../.designer/backup/icons/guitar-black-shape-svgrepo-com.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"../icons/guitar-black-shape-svgrepo-com.png", QSize(), 
+                     QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.actionHow_does_it_work = QAction(MainWindow)
         self.actionHow_does_it_work.setObjectName(u"actionHow_does_it_work")

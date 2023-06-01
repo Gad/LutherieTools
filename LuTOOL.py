@@ -46,7 +46,7 @@ from PySide6.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QFileDi
                                 QDialog, QMessageBox, QDialogButtonBox
 from PySide6.QtSvgWidgets import QGraphicsSvgItem
 from PySide6.QtCore import QByteArray, Slot, QTranslator, QLocale, QCoreApplication, \
-    QEvent, QTextStream, QObject, Signal
+    QEvent, QObject, Signal
 from PySide6.QtGui import QActionGroup, QIcon
 
 
@@ -64,6 +64,8 @@ languageDicAlter = {"French" :  QLocale.Language.French,
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
+        main_logger.debug('Opening main Window')
+
         super(MainWindow, self).__init__()
         
         self.setWindowIcon(QIcon('./icons/guitar-black-shape-svgrepo-com.png'))
@@ -117,7 +119,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def generateSVG(self):
-        #print("génération du SVG")
+        main_logger.debug('Entering template generation')
+
         
         self.monDiapason=FrettingTemplate(float(self.row1ScaleLengthSpinBox.value()),\
                                         str(self.Row1UnitChoiceBox.currentText()),\
@@ -129,7 +132,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                         bool(self.Row2IncludeMarksCheckBox.isChecked()))
         
         self.renderer2 = QByteArray(self.monDiapason.SVGoutput)
-        
+        main_logger.debug('Displaying template in main window')
+
         self.SVGDisplay=QGraphicsSvgItem()
         self.SVGDisplay.renderer().load(self.renderer2)
         self.SVGDisplay.setElementId("")
@@ -173,7 +177,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @Slot()
     def saveAsSVG(self):
         
-        
+        main_logger.debug('Trying to save SVG')
+
         suggestedFileName='Diapason '+str(self.row1ScaleLengthSpinBox.value())+' '+\
         str(self.Row1UnitChoiceBox.currentText())+'-'+str(self.row2ScaleLengthSpinBox.value())+\
         ' '+str(self.Row2UnitChoiceBox.currentText())+'.svg' 
@@ -196,6 +201,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def about(self):
+        main_logger.debug('Calling About Windows')
         dialogWindow=AboutDialog(self)
         dialogWindow.setFixedSize(dialogWindow.width(),dialogWindow.height())
         dialogWindow.exec_()
@@ -224,14 +230,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.windowsLoggingHandler=logging.StreamHandler(sys.stderr)
             self.windowsLoggingHandler.setFormatter (logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(funcName)s:%(lineno)d — %(message)s"))
             main_logger.addHandler(self.windowsLoggingHandler)
-            print(main_logger.handlers)
             
-      
-        #dialogWindow.setFixedSize(dialogWindow.width(),dialogWindow.height())
-        #dialogWindow.setWindowModality(Qt.WindowModality.NonModal)
+ 
     @Slot()    
     def closeLogWindow(self, event=None):
-        print("here")
+        main_logger.debug('Try to close log windows.')
         main_logger.removeHandler(self.windowsLoggingHandler)
         
 
@@ -262,7 +265,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.retranslateUi(self)
             #self.setupUi(self)
         else :
-            logging.warn("Failed to load new translator")    
+            main_logger.warn("Failed to load new translator")    
 
 
     # managing button tooltips depending on enable/disable
@@ -294,8 +297,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.logWindow.logBrowser.insertPlainText(text) 
 
     def cleaningOnClose(self,event):
-
-        #cleaning temp files in log
+        main_logger.debug('Cleaning temp files in log')
 
         fileList = glob.glob('./logs/tmp*.log', recursive=True)
      
@@ -304,7 +306,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             try:
                 os.remove(file)
             except OSError:
-                print("Error while deleting file")
+                main_logger.error("Error while deleting file")
 
             finally :
                 event.accept()
@@ -329,7 +331,9 @@ class EmittingStream(QObject):
         self.textWritten.emit(str(text))
 
 class AskQuoteDialog(QDialog, Ui_Dialog):
+
     def __init__(self, parent=None):
+        main_logger.debug('Trying to open Quote Dialog')
         super().__init__()
         self.setupUi(self)
         self.SVGFileName=parent.SVGFileName[0]
@@ -359,7 +363,7 @@ class AskQuoteDialog(QDialog, Ui_Dialog):
 
     def sendFiles(self):
         
-        
+        main_logger.debug('Calling send quote request')
         newRequest=Quote_request(self.SVGFileName,self.firstNameLineEdit.text(),
                                     self.secondNameLineEdit.text(),
                                     self.emailAddressLineEdit.text(), 
@@ -367,6 +371,8 @@ class AskQuoteDialog(QDialog, Ui_Dialog):
         r=newRequest.send_request()
         
         if r[0] is False:
+            main_logger.warning('Sent quote request failed')
+
             QMessageBox.warning(self, 
                 QCoreApplication.translate("MainWindow","Error,quote request NOT sent"),
                                     "{}".format(r[1]) )
@@ -378,6 +384,7 @@ class AskQuoteDialog(QDialog, Ui_Dialog):
 
     def check(self, emailAddress : str ="") -> bool: 
         pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+
         return True if re.fullmatch(pattern, emailAddress) else False
 
 
@@ -391,10 +398,10 @@ main_logger.setLevel(logging.DEBUG)
 
 # set tmp file handler 
 windowsLoggingHandler=logging.StreamHandler(sys.stderr)
-windowsLoggingHandler.setFormatter (logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(funcName)s:%(lineno)d — %(message)s"))
+windowsLoggingHandler.setFormatter (logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(filename)s:%(funcName)s:%(lineno)d — %(message)s"))
 tempLogFile=tempfile.NamedTemporaryFile(mode="w+",suffix=".log", dir="./logs/", prefix='tmp', delete = False)
 tempLogFileHandler=logging.FileHandler(filename=tempLogFile.name, mode="a")
-tempLogFileHandler.setFormatter (logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(funcName)s:%(lineno)d — %(message)s"))
+tempLogFileHandler.setFormatter (logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(filename)s:%(funcName)s:%(lineno)d — %(message)s"))
 tempLogFileHandler.setLevel(logging.DEBUG)
 
 main_logger.addHandler(tempLogFileHandler)
