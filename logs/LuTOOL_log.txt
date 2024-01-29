@@ -1,4 +1,8 @@
-2023-06-01 19:36:26,276 — main_logger — DEBUG — <module>:410 — found Locale : Language.French
-2023-06-01 19:36:26,276 — main_logger — DEBUG — <module>:417 — Try to install tranlator: fr.qm
-2023-06-01 19:38:42,113 — main_logger — DEBUG — changeLanguage:258 — Try to install tranlator: en.qm
-2023-06-01 19:38:55,405 — main_logger — INFO — saveLog:240 — Saved Log file into /home/gilles/Nextcloud/Documents/dev/python/LutherieTools/logs/LuTOOL_log.txt
+2024-01-29 19:35:20,047 — main_logger — DEBUG — LuTOOL.py:<module>:417 — found Locale : Language.French
+2024-01-29 19:35:20,048 — main_logger — DEBUG — LuTOOL.py:<module>:424 — Try to install tranlator: fr.qm
+2024-01-29 19:35:20,048 — main_logger — DEBUG — LuTOOL.py:__init__:67 — Opening main Window
+2024-01-29 19:35:42,864 — main_logger — DEBUG — LuTOOL.py:generateSVG:122 — Entering template generation
+2024-01-29 19:35:42,865 — main_logger — DEBUG — FrettingTemplate.py:__init__:44 — creating new fretting template
+2024-01-29 19:35:42,870 — main_logger — DEBUG — FrettingTemplate.py:__init__:234 — created new fretting template
+2024-01-29 19:35:42,870 — main_logger — DEBUG — LuTOOL.py:generateSVG:135 — Displaying template in main window
+2024-01-29 19:36:00,353 — main_logger — INFO — LuTOOL.py:saveLog:243 — Saved Log file into /home/gilles/Nextcloud/Documents/dev/python/LutherieTools/logs/LuTOOL_log.txt

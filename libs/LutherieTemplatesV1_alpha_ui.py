@@ -37,8 +37,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         MainWindow.setFont(font)
         icon = QIcon()
-        icon.addFile(u"../icons/guitar-black-shape-svgrepo-com.png", QSize(), 
-                     QIcon.Normal, QIcon.Off)
+        icon.addFile(u"../icons/guitar-black-shape-svgrepo-com.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.actionHow_does_it_work = QAction(MainWindow)
         self.actionHow_does_it_work.setObjectName(u"actionHow_does_it_work")
@@ -60,10 +59,12 @@ class Ui_MainWindow(object):
         self.actionFrench.setCheckable(True)
         self.actionItalian = QAction(MainWindow)
         self.actionItalian.setObjectName(u"actionItalian")
-        self.actionItalian.setCheckable(True)
+        self.actionItalian.setCheckable(False)
+        self.actionItalian.setEnabled(False)
         self.actionSpanish = QAction(MainWindow)
         self.actionSpanish.setObjectName(u"actionSpanish")
-        self.actionSpanish.setCheckable(True)
+        self.actionSpanish.setCheckable(False)
+        self.actionSpanish.setEnabled(False)
         self.actionLog = QAction(MainWindow)
         self.actionLog.setObjectName(u"actionLog")
         self.centralwidget = QWidget(MainWindow)
@@ -207,15 +208,6 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.SaveAsSVGButton)
 
-        self.AskForQuoteButton = QPushButton(self.layoutWidget)
-        self.AskForQuoteButton.setObjectName(u"AskForQuoteButton")
-        self.AskForQuoteButton.setEnabled(False)
-        sizePolicy2.setHeightForWidth(self.AskForQuoteButton.sizePolicy().hasHeightForWidth())
-        self.AskForQuoteButton.setSizePolicy(sizePolicy2)
-        self.AskForQuoteButton.setSizeIncrement(QSize(0, 0))
-
-        self.horizontalLayout_3.addWidget(self.AskForQuoteButton)
-
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
@@ -247,8 +239,6 @@ class Ui_MainWindow(object):
         self.menuOptions.addAction(self.actionAbout)
         self.menuLanguage.addAction(self.actionEnglish)
         self.menuLanguage.addAction(self.actionFrench)
-        self.menuLanguage.addAction(self.actionItalian)
-        self.menuLanguage.addAction(self.actionSpanish)
 
         self.retranslateUi(MainWindow)
 
@@ -294,7 +284,6 @@ class Ui_MainWindow(object):
         self.Row2IncludeMarksCheckBox.setText(QCoreApplication.translate("MainWindow", u"include marks", None))
         self.BuildFretteBoardButton.setText(QCoreApplication.translate("MainWindow", u"Build Fretting Template", None))
         self.SaveAsSVGButton.setText(QCoreApplication.translate("MainWindow", u"Save as SVG File", None))
-        self.AskForQuoteButton.setText(QCoreApplication.translate("MainWindow", u"ask for a quote", None))
         self.menuTool.setTitle(QCoreApplication.translate("MainWindow", u"Tool", None))
         self.menuOptions.setTitle(QCoreApplication.translate("MainWindow", u"Options", None))
         self.menuLanguage.setTitle(QCoreApplication.translate("MainWindow", u"Language", None))

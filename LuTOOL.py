@@ -34,8 +34,7 @@ import shutil
 
 #project libs 
 from libs.LutherieTemplatesV1_alpha_ui import Ui_MainWindow
-from libs.QuoteRequestDialog import Ui_Dialog
-from libs.QuoteRequest import Quote_request
+
 from libs.FrettingTemplate import FrettingTemplate
 from libs.AboutDialog_ui import Ui_aboutDialog
 from libs.LuToolLog_ui import Ui_log
@@ -54,13 +53,10 @@ from PySide6.QtGui import QActionGroup, QIcon
 
 
 
-languageDic = {QLocale.Language.French : "fr", QLocale.Language.English : "en",
-                QLocale.Language.Spanish : "es", QLocale.Language.Italian : "it"}
+languageDic = {QLocale.Language.French : "fr", QLocale.Language.English : "en"}
 
 languageDicAlter = {"French" :  QLocale.Language.French, 
-                    "English" : QLocale.Language.English,
-                    "Spanish" : QLocale.Language.Spanish, 
-                    "Italian" : QLocale.Language.Italian }
+                    "English" : QLocale.Language.English}
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -86,7 +82,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.languageGroup.addAction(actions)
 
         # set event filter for "SendAquote" button
-        self.AskForQuoteButton.installEventFilter(self)
         self.SaveAsSVGButton.installEventFilter(self)
 
         #
@@ -96,7 +91,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Signals 
         self.BuildFretteBoardButton.clicked.connect(self.generateSVG)
         self.SaveAsSVGButton.clicked.connect(self.saveAsSVG)
-        self.AskForQuoteButton.clicked.connect(self.askForQuote)
 
         self.row1ScaleLengthSpinBox.valueChanged.connect(self.resetButtons)
         self.row2ScaleLengthSpinBox.valueChanged.connect(self.resetButtons)
@@ -158,7 +152,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @Slot()
     def resetButtons(self):
         self.SaveAsSVGButton.setEnabled(False)
-        self.AskForQuoteButton.setEnabled(False)
         if hasattr(self, 'scene'): self.scene.clear()  # noqa: E701
         if hasattr(self, 'renderer2'): self.renderer2=QByteArray()  # noqa: E701
         if hasattr(self, 'graphicsView'): self.graphicsView.destroy()  # noqa: E701
@@ -188,7 +181,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         with open(self.SVGFileName[0],'wb') as SVGfile:
             SVGfile.write(self.monDiapason.SVGoutput)
-            self.AskForQuoteButton.setEnabled(True)
         
        
 
@@ -251,9 +243,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @Slot()
     def changeLanguage(self, checked, checked_action):
 
-       
-        print(app.removeTranslator(translator))      
-
+        main_logger.debug('Suceeded in removing translator ? :{}'.format(app.removeTranslator(translator)))
+        
         #very poor :
         language=languageDic[languageDicAlter[checked_action.objectName().replace('action','')]]
 
@@ -275,11 +266,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                
 
         if event.type() == QEvent.Enter:
-            if self.AskForQuoteButton.isEnabled() is False:
-                self.AskForQuoteButton.setToolTip(QCoreApplication.translate("MainWindow",\
-                                 "Please first save your SVG file"))
-            else :
-                self.AskForQuoteButton.setToolTip("")
+
             if self.SaveAsSVGButton.isEnabled() is False:
                 self.SaveAsSVGButton.setToolTip(QCoreApplication.translate("MainWindow",\
                                  "Please first build the fretting template"))
@@ -329,63 +316,6 @@ class EmittingStream(QObject):
 
     def write(self, text):
         self.textWritten.emit(str(text))
-
-class AskQuoteDialog(QDialog, Ui_Dialog):
-
-    def __init__(self, parent=None):
-        main_logger.debug('Trying to open Quote Dialog')
-        super().__init__()
-        self.setupUi(self)
-        self.SVGFileName=parent.SVGFileName[0]
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
-        
-        # Signals 
-        self.buttonBox.accepted.connect(self.sendFiles)
-        self.checkBox.stateChanged.connect(self.changeState)
-        self.emailAddressLineEdit.editingFinished.connect(self.changeState)
-        self.firstNameLineEdit.editingFinished.connect(self.changeState)
-        self.secondNameLineEdit.editingFinished.connect(self.changeState)
-        self.language=translator.language()
-    @Slot()
-
-    def changeState(self):
-
-
-        if self.checkBox.isChecked() and \
-        self.check(self.emailAddressLineEdit.text()) and \
-        self.firstNameLineEdit.text()!="" and \
-        self.secondNameLineEdit.text()!="":
-
-            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(True)
-        
-        else:
-            self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
-
-    def sendFiles(self):
-        
-        main_logger.debug('Calling send quote request')
-        newRequest=Quote_request(self.SVGFileName,self.firstNameLineEdit.text(),
-                                    self.secondNameLineEdit.text(),
-                                    self.emailAddressLineEdit.text(), 
-                                    self.language)
-        r=newRequest.send_request()
-        
-        if r[0] is False:
-            main_logger.warning('Sent quote request failed')
-
-            QMessageBox.warning(self, 
-                QCoreApplication.translate("MainWindow","Error,quote request NOT sent"),
-                                    "{}".format(r[1]) )
-        else:
-            QMessageBox.information(self, QCoreApplication.translate("MainWindow",
-                                                "Quote request sent")+"              ",
-                                                QCoreApplication.translate("MainWindow",
-                                                "Thank you, we're working on it ;)"))
-
-    def check(self, emailAddress : str ="") -> bool: 
-        pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
-
-        return True if re.fullmatch(pattern, emailAddress) else False
 
 
 
