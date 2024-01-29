@@ -87,4 +87,4 @@ settings.json
 #app specific
 SVGs/
 qss/
-logs/
+logs/*

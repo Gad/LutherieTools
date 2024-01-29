@@ -41,4 +41,5 @@ https://github.com/Gad/LutherieTools/assets/101347/d3456a7a-fc7e-43b6-8c48-8d462
 ## Avertissements 
 
 Vous pouvez/devriez vérifier que le diapason est conforme (par exemple en l'ouvrant dans inkscape et en mesurant la distance entre les frettes). Je décline toute responsabilité !
+
 Le code est moche mais je n'ai pas le temps de l'améliorer :)
