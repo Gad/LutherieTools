@@ -3,8 +3,8 @@
 The ambition of LuTOOL is/was to provide a set of tools for guitar makers. I'm publishing the first one that works, i.e. the fretboard generator. 
 The generator can output fretboard vector files for any scale length in millimeters or inches.  
 This vector file (in SVG format) can then be used for cutting the fretboard (laser cut, CNC, etc.).
-Bear in mind we use the color code of our own laser cutting service [Link](http://www.damengo.com) : red for cutting, green for engraving. 
-The fretboards shape and features are largely inspired by those published by [Link](https://www.lutherie-amateur.com/Forum/index.php). Big thanks to them !
+Bear in mind we use the color code of our own laser cutting service [www.damengo.com](http://www.damengo.com) : red for cutting, green for engraving. 
+The fretboards shape and features are largely inspired by those published by [Forum lutherie amateur](https://www.lutherie-amateur.com/Forum/index.php). Big thanks to them !
 
 
 
@@ -23,6 +23,14 @@ python LuTOOL.py
 ```
 
 or download one of the (future) releases
+
+## How does it work ?
+
+
+https://github.com/Gad/LutherieTools/assets/101347/e944e63d-6712-4d5c-8200-0d0a9e18f4ce
+
+
+
 
 ## License 
 
